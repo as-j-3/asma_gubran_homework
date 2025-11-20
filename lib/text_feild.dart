@@ -2,12 +2,19 @@ import 'package:flutter/material.dart';
 
 import 'new_page.dart';
 
-class TextPage extends StatelessWidget {
+class TextPage extends StatefulWidget {
   const TextPage({super.key});
 
   @override
+  State<TextPage> createState() => _TextPageState();
+}
+
+class _TextPageState extends State<TextPage> {
+  TextEditingController _textEditingController2=TextEditingController();
+  TextEditingController _textEditingController=TextEditingController();
+  @override
   Widget build(BuildContext context) {
-    TextEditingController _textEditingController=TextEditingController();
+
     return  Scaffold(
 
       appBar: AppBar(
@@ -52,7 +59,7 @@ class TextPage extends StatelessWidget {
             Text('Name',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
             SizedBox(height: 20,),
             TextFormField(
-              controller: _textEditingController,
+              controller: _textEditingController2,
               decoration: InputDecoration(
                   hintText: 'Enter your name ',
                   label: Icon(Icons.person),
@@ -73,7 +80,26 @@ class TextPage extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(builder:(context) => NewPage(data: _textEditingController.text),));
                 },
                 child: Text(
-                  'Enter Her',
+                  'نقل الى صفحة اخر ',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      height: 2
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+              ),
+            ),
+            Container(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                   _textEditingController2=_textEditingController;
+                  });
+                },
+                child: Text(
+                  'نقل المحتوى ',
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
