@@ -32,10 +32,5 @@ class UsersStorage {
     };
   }
 
-  Future<void> clear() async {
-    if (_usersFile == null) await init();
-    if (await _usersFile!.exists()) {
-      await _usersFile!.writeAsString('');
-    }
   }
 }
