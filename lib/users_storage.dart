@@ -31,6 +31,5 @@ class UsersStorage {
       'password': parts[1].trim(),
     };
   }
-
-  }
+  
 }
