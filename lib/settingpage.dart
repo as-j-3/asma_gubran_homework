@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:task3/card.dart';
 
 class Settingpage extends StatelessWidget {
   const Settingpage({super.key});
@@ -10,9 +11,7 @@ class Settingpage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.settings_outlined,size: 30,color: Colors.blue,),
-          SizedBox(height: 20,),
-          Text('settings',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 40,color: Colors.blue),)
+         Cards(dscrbthen: 'تغير الاعدادات اللازمه', text: 'اعدادات عامه', Iconss:Icons.settings_outlined)
         ],
       ),
     );
