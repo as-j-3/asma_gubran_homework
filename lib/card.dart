@@ -19,7 +19,7 @@ class Cards extends StatelessWidget {
       elevation: 0,
       color: const Color(0xfff3e9dd),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8), // قلت الـ radius كما طلبت
+        borderRadius: BorderRadius.circular(8), 
         side: const BorderSide(color: Color(0xffc7b8a1), width: 1),
       ),
       child: Padding(
@@ -27,7 +27,7 @@ class Cards extends StatelessWidget {
         child: Row(
           textDirection: TextDirection.rtl,
           children: [
-            // النصوص داخل ListTile لكن داخل Expanded حتى لا يكسر الـ Row
+
             Expanded(
               child: ListTile(
                 contentPadding: EdgeInsets.zero,
@@ -51,13 +51,13 @@ class Cards extends StatelessWidget {
 
             const SizedBox(width: 12),
 
-            // الصندوق اللي يحمل الايقونة — على اليسار
+
             Container(
               width: 60,
               height: 60,
               decoration: BoxDecoration(
                 color: Colors.brown,
-                borderRadius: BorderRadius.circular(6), // رادياس أقل كما طلبت
+                borderRadius: BorderRadius.circular(6), 
               ),
               child: Icon(
                 Iconss,
