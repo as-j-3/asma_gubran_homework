@@ -1,0 +1,42 @@
+name: calories_app
+description: "A new Flutter project."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.7.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  google_fonts: ^6.3.2
+  flutter_screenutil: ^5.9.3
+  flutter_svg: ^2.2.2
+  dots_indicator: ^4.0.1
+  numberpicker: ^2.1.2
+  shared_preferences: ^2.5.3
+  convert: ^3.1.2
+  intl: ^0.20.2
+  fl_chart: ^0.68.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_launcher_icons: ^0.14.4
+  flutter_lints: ^5.0.0
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "images/logo.png"
+  adaptive_icon_background: "#009879"
+
+
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - images/
