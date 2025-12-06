@@ -28,7 +28,7 @@ class _AddMaelState extends State<AddMael> {
   ];
   List<Map<String, dynamic>> addedMeals = [];
   final mealTypes = ["فطور", "غداء", "عشاء", "وجبة خفيفة"];
-
+// لعرض قوائم الطعام
   void selectIndex(int idx) {
     setState(() {
       for (int i = 0; i < isSelect.length; i++) {
@@ -115,6 +115,7 @@ class _AddMaelState extends State<AddMael> {
                   SizedBox(height: 20.h),
                   Column(
                     children: [
+                      // خاص بضافه الوجبات
                       for (var meal in selectedMeals) ...[
                         Mealitemcard(
                           name: meal['name'],
@@ -122,6 +123,7 @@ class _AddMaelState extends State<AddMael> {
                           carbs: meal['carbs'],
                           protein: meal['protein'],
                           fats: meal['fats'],
+                          // تمرير الوجبات المختاره للكود الرئيسي
                           onAdd: () {
                             final newMeal = {
                               'name': meal['name'],

@@ -1,4 +1,4 @@
-import 'dart:convert'; // 🔑 جديد: للتعامل مع JSON
+import 'dart:convert';
 import 'package:calories_app/rote/rote_name.dart';
 import 'package:calories_app/styles/app_colores.dart';
 import 'package:calories_app/styles/app_images.dart';
@@ -9,11 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../wdjets/RichTextt.dart';
 import '../wdjets/logo.dart';
 
-// المفتاح الموحد الذي يحمل قاموس بيانات اعتماد جميع المستخدمين (يجب أن يكون مطابقاً لما في DataForSinup)
+// مفتاح لجلب جميع المستخدمين ويتاكد من لديه حساب
 const String _ALL_CREDENTIALS_KEY = 'all_user_credentials';
 
 class LoginScreen extends StatefulWidget {
@@ -27,50 +26,37 @@ class _LoginScreenState extends State<LoginScreen> {
   final forkey = GlobalKey<FormState>();
   late TextEditingController emailController;
   late TextEditingController passwordController;
-  late bool _darkModeEnabled = false;
-
   bool isChecked = false;
 
-  // 🔑 تم تعديل الدالة: للتحقق من بيانات الاعتماد من قاموس JSON
+//  تسجيل الدخول
   Future<void> _loginUser() async {
     final prefs = await SharedPreferences.getInstance();
     final enteredEmail = emailController.text.trim();
     final enteredPassword = passwordController.text.trim();
 
-
+   // يقوم بجلب جميع المستخدمين ووضعهم في map
     final String? existingJson = prefs.getString(_ALL_CREDENTIALS_KEY);
 
     Map<String, dynamic> credentialsMap = {};
     if (existingJson != null) {
-      try {
         final decoded = json.decode(existingJson);
-        if (decoded is Map<String, dynamic>) {
           credentialsMap = decoded;
-        }
-      } catch (e) {
-        print('Error decoding credentials on login: $e');
-
-      }
     }
-
+    // نقوم بجلب باسورد المستخدم الذي سجل
 
     final String? savedPassword = credentialsMap[enteredEmail];
-
+// نقارن الباسورد مع الباسورد المدخل
     if (savedPassword != null && enteredPassword == savedPassword) {
-
+// نحدد المستخدم النشط
       await prefs.setString('username', enteredEmail);
       await prefs.setBool('isLoggedIn', true);
-
-      if (mounted) {
-        Navigator.pushNamedAndRemoveUntil(
+// ننقله للصفحة الرئيسيه
+        Navigator.pushNamed(
           context,
           Rotename.Mainscreen,
-          (route) => false,
         );
-      }
-    } else {
 
-      if (mounted) {
+    } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text(
@@ -79,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
             backgroundColor: Colors.red,
           ),
         );
-      }
+
     }
   }
 

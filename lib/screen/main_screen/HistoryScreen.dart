@@ -4,8 +4,7 @@ import 'package:calories_app/styles/app_sttles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-
-import '../../styles/app_images.dart'; // 💡 ستحتاج لإضافة 'intl: ^0.18.1' إلى pubspec.yaml
+import '../../styles/app_images.dart';
 
 class HistoryScreen extends StatefulWidget {
   final List<Map<String, dynamic>>? allMeals;
@@ -48,7 +47,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
       // تنسيق التاريخ كمفتاح (مثل: 2025-11-29)
       final String dateKey = DateFormat('yyyy-MM-dd').format(mealDate);
 
-
+// تقسيم حسب التاريخ
       if (!groupedMealsByDay.containsKey(dateKey)) {
         groupedMealsByDay[dateKey] = [];
       }
@@ -59,7 +58,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
     if (mounted) setState(() {});
   }
-
+// تحسب سعراتك
   int _calculateDailyCalories(String dateKey) {
     final meals = groupedMealsByDay[dateKey] ?? [];
     return meals.fold(0, (sum, meal) {

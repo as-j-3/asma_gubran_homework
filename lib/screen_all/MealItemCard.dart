@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../data_meal/data_meal.dart';
 import '../styles/app_colores.dart';
 import '../styles/app_sttles.dart';
-
+// عرض الوجبات
 class Mealitemcard extends StatelessWidget {
   final String name;
   final int calories;

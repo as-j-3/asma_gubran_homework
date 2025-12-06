@@ -20,16 +20,15 @@ class SinUp extends StatefulWidget {
 class _SinUpState extends State<SinUp> {
   double isnext = 0;
 
-
   String _newUserEmail = '';
 
-
+//هذه الداله ترجع البريد الاكتروني الحالي (النشط ) عن طريق تسجيل الدخول
   void _onRegistrationSuccess(String email) {
     setState(() {
       _newUserEmail = email;
     });
   }
-
+  // هذه الداله تحدد هل صفحه انشاء حساب تنعرض ام تحديد معلومات الجسم
   Widget _buildCurrentStepWidget() {
     if (isnext == 0) {
       return DataForSinup(
@@ -94,7 +93,6 @@ class _SinUpState extends State<SinUp> {
               SizedBox(height: 15.h),
               Expanded(
                 child: Container(
-                  // تم تعديل الارتفاع إلى Expanded للسماح بـ SingleChildScrollView
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: Appcolores.white,

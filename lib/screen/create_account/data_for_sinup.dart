@@ -7,19 +7,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../styles/app_colores.dart';
 import '../../wdjets/PrimaryButtem.dart';
 
-// المفتاح الموحد الذي سيحمل قاموس بيانات اعتماد جميع المستخدمين
+//هدا عبار عن المفتاح لكل المستخدمين المسجلين في التطبيق
 const String _ALL_CREDENTIALS_KEY = 'all_user_credentials';
 
 class DataForSinup extends StatefulWidget {
+  // الداله الاول ترجع له متغير لينقل للصفحه التاليه
+  // الداله الثانيه ترجع له المستخدم النشط
   final void Function(double) onChanged;
-
-  // 💡 الخاصية الجديدة: دالة لتمرير البريد الإلكتروني عند النجاح
   final void Function(String email) onRegistrationSuccess;
 
   const DataForSinup({
     super.key,
     required this.onChanged,
-    required this.onRegistrationSuccess, // يتم استخدامها لتمرير البريد
+    required this.onRegistrationSuccess,
   });
 
   @override
@@ -44,36 +44,29 @@ class _DataForSinupState extends State<DataForSinup> {
     passwordController.dispose();
     super.dispose();
   }
-
-  Future<void> _saveNewRegistrationData({
-    required String email,
-    required String password,
-  }) async {
+// داله تقوم بحفظ البريد والباسورد في الشير رفيرينس
+  Future<void> _saveNewRegistrationData({required String email, required String password,}) async {
     final prefs = await SharedPreferences.getInstance();
+    // نتاكد من ازاله اي مسافه زائده
     final String trimmedEmail = email.trim();
     final String trimmedPassword = password.trim();
+    //نجلب جميع السستخدين لانه ميزنا جميع المستخدمين بمفتاح
     final String? existingJson = prefs.getString(_ALL_CREDENTIALS_KEY);
 
     Map<String, dynamic> credentialsMap = {};
+
     if (existingJson != null) {
-      try {
+      // اذا يوجد مستخدمين حولهم الى map ويتم تخزينهم في ال map الجديده
         final decoded = json.decode(existingJson);
-        if (decoded is Map<String, dynamic>) {
           credentialsMap = decoded;
-        }
-      } catch (e) {
-        print('Error decoding existing credentials: $e');
-      }
     }
-
+    // يتم اضافه المستخدم الجديد في ال map
     credentialsMap[trimmedEmail] = trimmedPassword;
-
+//  يتم تحويل ال map  الى صيغه json ليتم تخزينها في الشير رفينيس
     final newJson = json.encode(credentialsMap);
+    // يخزن المفتاح مع بيانات المستخدم الجديد
     await prefs.setString(_ALL_CREDENTIALS_KEY, newJson);
 
-    await prefs.remove('saved_email');
-    await prefs.remove('saved_password');
-    await prefs.setBool('isRegistered', true);
   }
 
   @override
@@ -131,12 +124,12 @@ class _DataForSinupState extends State<DataForSinup> {
             onPressed: () async {
               if (forkey.currentState!.validate()) {
                 final String userEmail = emailController.text.trim();
-
+                //يتم استدعاء الداله للاضافة
                 await _saveNewRegistrationData(
                   email: userEmail,
                   password: passwordController.text,
                 );
-
+                // يتم استدعاها لتمرير المستخدم الحالي
                 widget.onRegistrationSuccess(userEmail);
 
                 ScaffoldMessenger.of(context).showSnackBar(

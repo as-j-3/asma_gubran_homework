@@ -1,12 +1,11 @@
 import 'package:calories_app/screen_all/bode_user.dart';
-import 'package:calories_app/styles/app_images.dart';
 import 'package:calories_app/styles/app_sttles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../rote/rote_name.dart';
 import '../styles/app_colores.dart';
-
+// المفتاح الخاص لجلب بيانات المرتبطه بالامستخدم
 const String _DATA_PREFIX = 'user_data_';
 
 class ProfileUsur extends StatefulWidget {
@@ -17,6 +16,7 @@ class ProfileUsur extends StatefulWidget {
 }
 
 class _ProfileUsurState extends State<ProfileUsur> {
+  // نعطي قيمه اوليه للمتغيرات
   String? activeUsername;
   String nameUser = 'مستخدم جديد';
   String emilUse = 'loading...';
@@ -32,10 +32,10 @@ class _ProfileUsurState extends State<ProfileUsur> {
     super.initState();
     _loadUserData();
   }
+  // تحميل البيانات بنفس طريقه تخزينهم
   Future<void> _loadUserData() async {
     final prefs = await SharedPreferences.getInstance();
-
-    // استرجاع اسم المستخدم النشط المخزن
+// لانه مستخدم الحالي والنشط
     final String? username = prefs.getString('username');
 
     if (username != null) {
@@ -51,8 +51,9 @@ class _ProfileUsurState extends State<ProfileUsur> {
       final String goal =
           prefs.getString('${_DATA_PREFIX}goal_$userKey') ?? 'الحفاظ على الوزن';
 
-      if (mounted) {
+
         setState(() {
+          // نحدث قيم البيانات
           activeUsername = username;
           emilUse = username;
           nameUser =
@@ -67,29 +68,21 @@ class _ProfileUsurState extends State<ProfileUsur> {
           userGoal = goal;
         });
       }
-    } else {
-      if (mounted) {
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          Rotename.login_screen,
-          (route) => false,
-        );
-      }
-    }
-  }
 
+
+
+
+  }
+// داله تسجيل الخروج مع ازاله المستخدم النشط
   Future<void> _logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('username');
     await prefs.remove('isLoggedIn');
-
-    if (mounted) {
-      Navigator.pushNamedAndRemoveUntil(
+      Navigator.pushNamed(
         context,
         Rotename.login_screen,
-        (Route<dynamic> route) => false,
       );
-    }
+
   }
 
   @override
@@ -248,7 +241,7 @@ class _ProfileUsurState extends State<ProfileUsur> {
               ),
               SizedBox(height: 17.h),
               ElevatedButton(
-                onPressed: _logout, // 7. ربط الدالة
+                onPressed: _logout,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   foregroundColor: Colors.red,

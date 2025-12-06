@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<int> lunchCalories = [0];
   List<int> dinnerCalories = [0];
   List<int> snacksCalories = [0];
-
+//تأمين تحويل قيمة غير معروفة إلى int
   int _toInt(dynamic v) {
     if (v == null) return 0;
     if (v is int) return v;
@@ -43,19 +43,19 @@ class _HomeScreenState extends State<HomeScreen> {
     return 0;
   }
 
-
+// داله تحدد مستوى الشريط المعروض
   double get progressRatio {
     final ratio = totalCalories / (caloriesAllowed == 0 ? 1 : caloriesAllowed);
     return ratio.clamp(0.0, 1.0);
   }
 
-
+// تتاكد من انك هل اكملت السعرات الحراريه المسموحة
   String get remainingText {
     final rem = caloriesAllowed - totalCalories;
     return rem >= 0 ? "متبقي $rem سعرة" : "تجاوزت ${rem.abs()} سعرة";
   }
 
-
+//قراءة وفصل الوجبات والتحضير للحساب
   void _loadMeals() {
     // إرجاع القيم الافتراضية
     breakfastNames = ['لا يوجد'];
@@ -67,10 +67,11 @@ class _HomeScreenState extends State<HomeScreen> {
     lunchCalories = [0];
     dinnerCalories = [0];
     snacksCalories = [0];
-
+// هذه هي الوجبه التي سوف تمرر
     final meals = widget.meals;
     if (meals == null || meals.isEmpty) {
-      _calculateTotals(); // يضع المجاميع على الافتراضي
+      // سوف يتم حساب المطلوب
+      _calculateTotals();
       return;
     }
 
@@ -80,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final dMeals = meals.where((m) => (m['type'] ?? '') == 'عشاء').toList();
     final sMeals =
         meals.where((m) => (m['type'] ?? '') == 'وجبة خفيفة').toList();
-
+// استخراج أسماء الوجبات من قائمة Maps
     List<String> _namesFrom(List<Map<String, dynamic>> list) {
       final names =
           list
@@ -89,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
               .toList();
       return names.isEmpty ? ['لا يوجد'] : names;
     }
-
+    //استخراج السعرات  الوجبات من قائمة Maps
     List<int> _calsFrom(List<Map<String, dynamic>> list) {
       final vals = list.map((m) => _toInt(m['calories'])).toList();
       return vals.isEmpty ? [0] : vals;
@@ -112,6 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
   void _calculateTotals() {
+//جمع عناصر القائمة (مبتدأ بـ0 ثم يضيف كل عنصر).
     final bTotal = breakfastCalories.fold(0, (s, x) => s + x);
     final lTotal = lunchCalories.fold(0, (s, x) => s + x);
     final dTotal = dinnerCalories.fold(0, (s, x) => s + x);
@@ -119,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     totalCalories = bTotal + lTotal + dTotal + sTotal;
 
-
+// جمع البروتين والكربوهيدرات والدهون
     if (widget.meals == null || widget.meals!.isEmpty) {
       totalProtein = 0;
       totalCarbs = 0;
@@ -268,7 +270,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-
+        SizedBox(height: 20.h,),
           Container(
             width: double.infinity,
             height: 310.h,

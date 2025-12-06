@@ -9,7 +9,7 @@ import '../../styles/app_colores.dart';
 import '../../styles/app_sttles.dart';
 import '../../wdjets/AppConstants.dart';
 import '../../wdjets/ReusableDropdown.dart';
-
+// مفتاح لسيجبل جميع بيانات المستخدم
 const String _DATA_PREFIX = 'user_data_';
 
 class DataForBody extends StatefulWidget {
@@ -34,7 +34,7 @@ class _DataForBodyState extends State<DataForBody> {
   String? selectedGender;
   String? selectedGoal;
   String? selectedActivityLevel;
-
+// داله تعمل على حفظ البيانات وربطه باسم المستخدم
   Future<void> _createNewUserSession() async {
     final prefs = await SharedPreferences.getInstance();
     final String userKey = widget.newUsername;
@@ -53,17 +53,16 @@ class _DataForBodyState extends State<DataForBody> {
       '${_DATA_PREFIX}goal_$userKey',
       selectedGoal ?? 'N/A',
     );
-
+//يسجل المستخدم النشط
     await prefs.setString('username', userKey);
     await prefs.setBool('isLoggedIn', true);
-
-    if (mounted) {
-      Navigator.pushNamedAndRemoveUntil(
+    // ينتقل للشاشه الرئيسية
+      Navigator.pushNamed(
         context,
         Rotename.Mainscreen,
-        (Route<dynamic> route) => false,
+
       );
-    }
+
   }
 
   @override
@@ -162,6 +161,7 @@ class _DataForBodyState extends State<DataForBody> {
               onPressed: _createNewUserSession,
             ),
             PrimaryButtem(
+              // في حال الرجوع للخلف يرسل قيمه ليرجع للصفه التي قبلها
               text: 'رجوع',
               width: 130.w,
               onPressed: () {

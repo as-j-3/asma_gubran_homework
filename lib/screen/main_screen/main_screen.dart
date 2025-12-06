@@ -19,9 +19,11 @@ class Mainscreen extends StatefulWidget {
 
 class _MainscreenState extends State<Mainscreen> {
   int currentIndex = 0;
+  // تستقبل الوجبات المختاره
   List<Map<String, dynamic>> addedMeals = [];
+  //قائمة الشاشات الفرعية
   late List<Widget> screens;
-
+//داله تستقبل الوجبات المختاره ووضعها في list
   void _addMeal(Map<String, dynamic> meal) {
     setState(() {
       addedMeals.add(meal);
@@ -30,12 +32,12 @@ class _MainscreenState extends State<Mainscreen> {
 
     _saveMeals();
   }
-
+// ترجع لي المستخدم النشط
   Future<String?> _getUserId() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('username');
   }
-
+// حفظ الوجبات المختارة
   Future<void> _saveMeals() async {
     final prefs = await SharedPreferences.getInstance();
     final userId = await _getUserId();
@@ -53,7 +55,7 @@ class _MainscreenState extends State<Mainscreen> {
     final jsonString = jsonEncode(mealsToSave);
     await prefs.setString('meals_$userId', jsonString);
   }
-
+// تحميل الوجبات
   Future<void> _loadMeals() async {
     final prefs = await SharedPreferences.getInstance();
     final userId = await _getUserId();
@@ -84,7 +86,7 @@ class _MainscreenState extends State<Mainscreen> {
       }
     }
   }
-
+//الوجبات المتعلقه باليوم فقط يتم تقسيمها عبر التاريخ
   List<Map<String, dynamic>> _getTodayMeals() {
     final today = DateTime.now();
     return addedMeals.where((meal) {
@@ -119,7 +121,9 @@ class _MainscreenState extends State<Mainscreen> {
 
   @override
   Widget build(BuildContext context) {
+    // تمرير الداله الخاصه باليوم
     screens[0] = HomeScreen(meals: _getTodayMeals());
+    //تمرير الداله الخاصه بوجبات كل الاشيام
     screens[1] = HistoryScreen(
       allMeals: addedMeals,
     );
