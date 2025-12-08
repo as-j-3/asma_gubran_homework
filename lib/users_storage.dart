@@ -1,35 +1,38 @@
-import 'package:path_provider/path_provider.dart';
 import 'dart:io';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:path_provider/path_provider.dart';
 
 class UsersStorage {
-  File? _usersFile;
-
-  Future<void> init() async {
-    final Directory appDocumentsDir = await getApplicationDocumentsDirectory();
-    _usersFile = File('${appDocumentsDir.path}/users.txt');
-    if (!await _usersFile!.exists()) {
-      await _usersFile!.create();
-    }
-  }
 
   Future<void> saveUser(String username, String password) async {
-    if (_usersFile == null) await init();
+    final Directory appDocumentsDir = await getTemporaryDirectory();
+    File file = File('${appDocumentsDir.path}/users.txt');
+
+    var status = await Permission.storage.status;
+    if (!status.isGranted) {
+      await Permission.storage.request();
+    }
     final String line = '$username,$password';
-    await _usersFile!.writeAsString(line);
+    await file.writeAsString(line);
   }
+
 
   Future<Map<String, String>?> readUser() async {
-    if (_usersFile == null) await init();
-    final String content = await _usersFile!.readAsString();
-    if (content.trim().isEmpty) return null;
+    final Directory appDocumentsDir = await getTemporaryDirectory();
+    File file = File('${appDocumentsDir.path}/users.txt');
 
-    final List<String> parts = content.split(',');
-    if (parts.length < 2) return null;
+    final List<String> lines = await file.readAsLines();
+    List<String>? parts;
+
+    for (var line in lines) {
+      line = line.trim();
+      parts = line.split(",");
+    }
 
     return {
-      'username': parts[0].trim(),
-      'password': parts[1].trim(),
+      "username": parts![0].trim(),
+      "password": parts![1].trim(),
     };
+
   }
-  
 }
