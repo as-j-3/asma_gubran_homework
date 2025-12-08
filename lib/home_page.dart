@@ -36,9 +36,9 @@ class HomePage extends StatelessWidget {
             SizedBox(height: 30),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pushAndRemoveUntil(
+                Navigator.of(context).push(
                   MaterialPageRoute(builder: (_) => LoginPage()),
-                      (route) => false,
+
                 );
               },
               child: Text('تسجيل الخروج'),
